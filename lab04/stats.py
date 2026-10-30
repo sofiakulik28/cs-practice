@@ -1,50 +1,46 @@
-def check_lines(lines):
-    total_valid_records = []
+def parse_record(line: str) -> dict:
+    parts = line.split(';')
+    if len(parts) != 3:
+        raise ValueError("...")
     
+    city, temp_str, date = parts
+    city = city.strip()
+    temp_str = temp_str.strip()
+    date = date.strip()
+
+    if not city or not date:
+        raise ValueError("...")
+
+    try:
+        temp = float(temp_str)
+    except ValueError:
+        raise ValueError("don't float")
+
+    return {'city': city, 'temp': temp, 'date': date}
+
+def read_valid(lines: list[str]) -> list[dict]:
+    valid_records = []
     for line in lines:
         if not line.strip():
             continue
-            
-        lines_ = line.split(';')
-        
-        if len(lines_) != 3:
+        try:
+            record = parse_record(line)
+            valid_records.append(record)
+        except ValueError:
             continue 
-            
-        else:
-            c, t, d = lines_
-            c = c.strip()
-            t = t.strip()
-            d = d.strip()
-            
-            if not c or not d:
-                continue
+    return valid_records
 
-            try:
-                temp_float = float(t)
-            except ValueError:
-                continue
-                
-            total_valid_records.append({'city': c, 'temp': temp_float, 'date': d})
-            
-    return total_valid_records
-
-def get_averages(records):
-    total = {}
-    count = {}
+def average_by_city(records: list[dict]) -> dict:
+    totals = {}
+    counts = {}
     for r in records:
-        c = r['city']
-        t = r['temp']
-        total[c] = total.get(c, 0) + t
-        count[c] = count.get(c, 0) + 1
+        totals[r['city']] = totals.get(r['city'], 0) + r['temp']
+        counts[r['city']] = counts.get(r['city'], 0) + 1
         
-    averages = {}
-    for c in total:
-        averages[c] = round(total[c] / count[c], 1)
-    return averages
+    return {city: round(totals[city] / counts[city], 1) for city in totals}
 
-def get_warmest_city(records):
+def warmest_city(records: list[dict]) -> str:
     if not records:
         return ""
-    averages = get_averages(records)
-    best = max(averages.keys(), key=lambda x: (averages[x], [-ord(ch) for ch in x]))
-    return best
+    averages = average_by_city(records)
+    return max(averages.keys(), key=lambda c: (averages[c], [-ord(char) for char in c]))

@@ -1,26 +1,24 @@
 import sys
-from stats import check_lines, get_averages, get_warmest_city
+from stats import average_by_city, read_valid, warmest_city
 
-lines = sys.stdin.read().splitlines()
-
-try:
-    valid_records = check_lines(lines)
-except ValueError:
-    print('Bad Data') 
-else:
+def main():
+    lines = sys.stdin.read().splitlines()
+    valid_records = read_valid(lines)
+    
     total_valid = len(valid_records)
     total_lines = len(lines)
     empty_lines = sum(1 for line in lines if not line.strip())
-    
     errors_count = total_lines - total_valid - empty_lines
     
     if total_valid > 0:
-        best_city = get_warmest_city(valid_records)
-        avg_temps = get_averages(valid_records)
-        
+        best_city = warmest_city(valid_records)
+        avg_temps = average_by_city(valid_records)
         print(total_valid)
         print(errors_count)
-        print(f"{avg_temps[best_city]:.1f}") 
+        print(f"{avg_temps[best_city]:.1f}")
     else:
         print(total_valid)
         print(errors_count)
+
+if __name__ == "__main__":
+    main()
