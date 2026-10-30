@@ -14,9 +14,9 @@ def parse_record(line: str) -> dict:
     try:
         temp = float(temp_str)
     except ValueError:
-        raise ValueError("don't float")
+        raise ValueError("not float")
 
-    return {'city': city, 'temp': temp, 'date': date}
+    return {'city': city, 'temperature': temp, 'date': date}
 
 def read_valid(lines: list[str]) -> list[dict]:
     valid_records = []
@@ -34,8 +34,10 @@ def average_by_city(records: list[dict]) -> dict:
     totals = {}
     counts = {}
     for r in records:
-        totals[r['city']] = totals.get(r['city'], 0) + r['temp']
-        counts[r['city']] = counts.get(r['city'], 0) + 1
+        city = r['city']
+        temp = r['temperature']
+        totals[city] = totals.get(city, 0) + temp
+        counts[city] = counts.get(city, 0) + 1
         
     return {city: round(totals[city] / counts[city], 1) for city in totals}
 
