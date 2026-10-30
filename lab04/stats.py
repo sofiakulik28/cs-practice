@@ -1,12 +1,12 @@
 def parse_record(line: str) -> dict:
+    line = line.strip()
     parts = line.split(';')
-    if len(parts) != 3:
-        raise ValueError("...")
     
-    city, temp_str, date = parts
-    city = city.strip()
-    temp_str = temp_str.strip()
-    date = date.strip()
+    if len(parts) != 3:
+        raise ValueError("...й")
+    city = parts[0].strip()
+    temp_str = parts[1].strip()
+    date = parts[2].strip()
 
     if not city or not date:
         raise ValueError("...")
