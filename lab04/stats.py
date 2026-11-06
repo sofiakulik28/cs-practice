@@ -12,7 +12,7 @@ def parse_record(line: str) -> dict:
         raise ValueError("...")
 
     try:
-        temp = float(temp_str)
+        temp = float(temp_str.replace(',','.'))
     except ValueError:
         raise ValueError("not float")
 
