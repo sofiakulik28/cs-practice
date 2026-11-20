@@ -1,7 +1,8 @@
 
 import logstats
 
-path = input()
+
+path = input().strip()
 
 with open(path, encoding="utf-8") as file:
     counts = logstats.count_levels(file)
