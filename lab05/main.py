@@ -1,19 +1,17 @@
-
 import logstats
-
 
 path = input().strip()
 
-with open(path, encoding="utf-8") as file:
-    counts = logstats.count_levels(file)
+with open(path, encoding="utf-8") as log:
+    counts = logstats.count_levels(log)
 
 total = 0
 
 for level in counts:
     total = total + counts[level]
 
-with open(path, encoding="utf-8") as file:
-    errors = logstats.top_errors(file, 5)
+with open(path, encoding="utf-8") as log:
+    errors = logstats.top_errors(log, 5)
 
 print(total)
 print(counts["ERROR"])

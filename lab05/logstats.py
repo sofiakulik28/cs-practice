@@ -1,4 +1,3 @@
-
 def parse_event(line):
     parts = line.strip().split(None, 2)
 
