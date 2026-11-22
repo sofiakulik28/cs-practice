@@ -46,7 +46,7 @@ def deepest_path(paths):
 
 
 def human_size(n_bytes):
-    units = ["B", "KB", "MB", "GB", "TB"]
+    units = ["Б", "КБ", "МБ", "ГБ", "ТБ"]
 
     size = float(n_bytes)
     unit_index = 0
@@ -56,6 +56,6 @@ def human_size(n_bytes):
         unit_index += 1
 
     if unit_index == 0:
-        return str(int(size)) + " B"
+        return str(int(size)) + " Б"
 
     return str(round(size, 1)) + " " + units[unit_index]
