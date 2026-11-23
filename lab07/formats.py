@@ -3,16 +3,28 @@ import json
 from io import StringIO
 
 
+
 def csv_to_records(text: str) -> list[dict]:
     file = StringIO(text)
-    reader = csv.DictReader(file)
+    reader = csv.DictReader(file, skipinitialspace=True)
 
     records = []
 
     for row in reader:
-        records.append(row)
+        new_row = {}
+
+        for key, value in row.items():
+            key = key.strip()
+
+            if value is not None:
+                value = value.strip()
+
+            new_row[key] = value
+
+        records.append(new_row)
 
     return records
+
 
 
 def parse_settings(lines: list[str]) -> dict:
@@ -50,7 +62,10 @@ def parse_settings(lines: list[str]) -> dict:
     return result
 
 
+
 def convert_value(value):
+    value = value.strip()
+
     if value == "true" or value == "yes":
         return True
 
@@ -63,9 +78,10 @@ def convert_value(value):
         pass
 
     try:
-        return float(value)
+        return float(value.replace(",", "."))
     except ValueError:
         return value
+
 
 
 def merge_by_key(rows: list[dict], extra: dict, key: str = "id") -> list[dict]:
