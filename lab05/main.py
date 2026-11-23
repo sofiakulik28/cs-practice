@@ -14,8 +14,8 @@ with open(path, encoding="utf-8") as log:
     errors = logstats.top_errors(log, 5)
 
 print(total)
-print(counts["ERROR"])
-print(counts["BROKEN"])
+print(counts.get("ERROR", 0))
+print(counts.get("BROKEN", 0))
 
 report = logstats.format_report(counts, errors)
 
