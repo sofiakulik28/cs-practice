@@ -78,10 +78,9 @@ def convert_value(value):
         pass
 
     try:
-        return float(value.replace(",", "."))
+        return float(value)
     except ValueError:
         return value
-
 
 
 def merge_by_key(rows: list[dict], extra: dict, key: str = "id") -> list[dict]:
